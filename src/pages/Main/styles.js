@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
-import { colors } from '~/styles';
+import { colors } from '../../styles';
 
 const styles = StyleSheet.create({
   backgroundWrapper: {
