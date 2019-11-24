@@ -17,26 +17,25 @@ export default Creators;
 export const INITIAL_STATE = Immutable({
   data: [],
   teamModalOpen: false,
-  active: JSON.parse(localStorage.getItem('@Omni:team')) || null,
+  active: null,
 });
 
 export const getSuccess = (state, { data }) => state.merge({ data });
 
-export const selectTeam = (state, { team }) => {
-  localStorage.setItem('@Omni:team', JSON.stringify(team));
-
+export const selectTeamSuccess = (state, { team }) => {
   return state.merge({ active: team });
 };
 
-export const openModal = (state) => state.merge({ teamModalOpen: true });
-export const closeModal = (state) => state.merge({ teamModalOpen: false });
+export const openModal = state => state.merge({ teamModalOpen: true });
 
-export const createSuccess = (state, { team }) => state.merge({ data: [...state.data, team] });
+export const closeModal = state => state.merge({ teamModalOpen: false });
 
+export const createSuccess = (state, { team }) =>
+  state.merge({ data: [...state.data, team] });
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_TEAMS_SUCCESS]: getSuccess,
-  [Types.SELECT_TEAM]: selectTeam,
+  [Types.SELECT_TEAM]: selectTeamSuccess,
   [Types.OPEN_TEAM_MODAL]: openModal,
   [Types.CLOSE_TEAM_MODAL]: closeModal,
   [Types.CREATE_TEAM_SUCCESS]: createSuccess,
