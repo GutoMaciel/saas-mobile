@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TeamsActions from '../../store/ducks/teams';
 
+import NewTeam from '../NewTeam';
+
 import styles from './styles';
 
 class TeamSwitcher extends Component {
@@ -24,14 +26,27 @@ class TeamSwitcher extends Component {
     }),
   };
 
+  state = {
+    isModalOpen: false,
+  };
+
   componentDidMount() {
     const { getTeamsRequest } = this.props;
 
     getTeamsRequest();
   }
 
+  toggleModalOpen = () => {
+    this.setState({ isModalOpen: true });
+  };
+
+  toggleModalClosed = () => {
+    this.setState({ isModalOpen: false });
+  };
+
   render() {
     const { teams, selectTeam } = this.props;
+    const { isModalOpen } = this.state;
 
     return (
       <View style={styles.container}>
@@ -49,9 +64,14 @@ class TeamSwitcher extends Component {
             />
           </TouchableOpacity>
         ))}
-        <TouchableOpacity style={styles.newTeam} onPress={() => {}}>
+        <TouchableOpacity style={styles.newTeam} onPress={this.toggleModalOpen}>
           <Icon name="add" size={25} color="#999" />
         </TouchableOpacity>
+
+        <NewTeam
+          visible={isModalOpen}
+          onRequestClose={this.toggleModalClosed}
+        />
       </View>
     );
   }
