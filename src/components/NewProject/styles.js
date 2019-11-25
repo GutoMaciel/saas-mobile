@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, general } from '~/styles';
+import { colors, general } from '../../styles';
 
 const styles = StyleSheet.create({
   ...general.formStyles,
