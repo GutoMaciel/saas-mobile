@@ -8,6 +8,7 @@ import api from '../../services/api';
 import MembersActions from '../../store/ducks/members';
 
 import Modal from '../Modal';
+import Can from '../Can';
 
 import styles from './styles';
 
@@ -43,12 +44,14 @@ class RoleUpdater extends Component {
           {roles.map(role => (
             <View key={role.id} style={styles.roleContainer}>
               <Text style={styles.roleText}>{role.name}</Text>
-              <Switch
-                value={
-                  !!member.roles.find(memberRole => memberRole.id === role.id)
-                }
-                onValueChange={value => this.handleRoleChange(value, role)}
-              />
+              <Can checkRole="administrator">
+                <Switch
+                  value={
+                    !!member.roles.find(memberRole => memberRole.id === role.id)
+                  }
+                  onValueChange={value => this.handleRoleChange(value, role)}
+                />
+              </Can>
             </View>
           ))}
         </View>

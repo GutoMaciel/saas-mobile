@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux';
 import ProjectsActions from '../../store/ducks/projects';
 
 import styles from './styles';
+import Can from '../Can';
 
 import NewProject from '../NewProject';
 

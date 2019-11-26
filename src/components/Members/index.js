@@ -10,6 +10,7 @@ import MembersActions from '../../store/ducks/members';
 
 import InviteMember from '../InviteMember';
 import RoleUpdater from '../RoleUpdater';
+import Can from '../Can';
 
 import styles from './styles';
 
@@ -57,21 +58,25 @@ class Members extends Component {
           renderItem={({ item }) => (
             <View style={styles.memberContainer}>
               <Text style={styles.memberName}>{item.user.name}</Text>
-              <TouchableOpacity
-                hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}
-                onPress={() => this.toggleRoleModalOpen(item)}
-              >
-                <Icon name="settings" size={20} color="#999" />
-              </TouchableOpacity>
+              <Can checkRole="administrator">
+                <TouchableOpacity
+                  hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}
+                  onPress={() => this.toggleRoleModalOpen(item)}
+                >
+                  <Icon name="settings" size={20} color="#999" />
+                </TouchableOpacity>
+              </Can>
             </View>
           )}
           ListFooterComponent={() => (
-            <TouchableOpacity
-              style={styles.button}
-              onPress={this.toggleInviteModalOpen}
-            >
-              <Text style={styles.buttonText}>Invite</Text>
-            </TouchableOpacity>
+            <Can checkPermission="invites_create">
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.toggleInviteModalOpen}
+              >
+                <Text style={styles.buttonText}>Invite</Text>
+              </TouchableOpacity>
+            </Can>
           )}
         />
 
@@ -83,10 +88,12 @@ class Members extends Component {
           />
         )}
 
-        <InviteMember
-          visible={isInviteModalOpen}
-          onRequestClose={this.toggleInviteModalClosed}
-        />
+        <Can checkPermission="invites_create">
+          <InviteMember
+            visible={isInviteModalOpen}
+            onRequestClose={this.toggleInviteModalClosed}
+          />
+        </Can>
       </View>
     );
   }
