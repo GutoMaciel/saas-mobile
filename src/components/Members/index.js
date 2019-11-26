@@ -8,17 +8,32 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import MembersActions from '../../store/ducks/members';
 
+import InviteMember from '../InviteMember';
+
 import styles from './styles';
 
 class Members extends Component {
+  state = {
+    isInviteModalOpen: false,
+  };
+
   componentDidMount() {
     const { getMembersRequest } = this.props;
 
     getMembersRequest();
   }
 
+  toggleInviteModalOpen = () => {
+    this.setState({ isInviteModalOpen: true });
+  };
+
+  toggleInviteModalClosed = () => {
+    this.setState({ isInviteModalOpen: false });
+  };
+
   render() {
     const { members } = this.props;
+    const { isInviteModalOpen } = this.state;
 
     return (
       <View style={styles.container}>
@@ -40,10 +55,18 @@ class Members extends Component {
             </View>
           )}
           ListFooterComponent={() => (
-            <TouchableOpacity style={styles.button} onPress={() => {}}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={this.toggleInviteModalOpen}
+            >
               <Text style={styles.buttonText}>Invite</Text>
             </TouchableOpacity>
           )}
+        />
+
+        <InviteMember
+          visible={isInviteModalOpen}
+          onRequestClose={this.toggleInviteModalClosed}
         />
       </View>
     );
